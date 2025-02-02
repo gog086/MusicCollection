@@ -1,0 +1,65 @@
+# Visual Studio & Rider Files
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vs/
+
+# Build & Output
+bin/
+obj/
+out/
+TestResults/
+.vscode/test-data/
+.DS_Store
+
+# Logs & Debugging
+logs/
+*.log
+*.tlog
+*.dmp
+
+# ASP.NET & Configurations
+appsettings.json
+appsettings.Development.json
+secrets.json
+
+# Entity Framework Migrations
+Migrations/
+*.db
+*.sqlite
+*.mdf
+*.ldf
+
+# Dependency Files
+node_modules/
+packages/
+npm-debug.log
+yarn.lock
+.pnp
+.pnp.js
+
+# Generated Files
+*.pidb
+*.pdb
+*.svclog
+*.tmp
+
+# Security & Tokens
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+secrets.json
+
+# Rider & JetBrains
+.idea/
+*.sln.iml
+*.sln.ide
+
+# macOS & System Files
+.DS_Store
+Thumbs.db
