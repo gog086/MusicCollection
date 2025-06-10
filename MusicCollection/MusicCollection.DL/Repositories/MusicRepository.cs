@@ -14,25 +14,28 @@ public class MusicRepository : IMusicRepository
     private readonly ILogger<MusicRepository> _logger;
 
     public MusicRepository(IOptionsMonitor<MongoDbConfiguration> mongoConfig, ILogger<MusicRepository> logger)
-        {
+    {
 
-            var client = new MongoClient(
-                mongoConfig.CurrentValue.ConnectionString);
+        var client = new MongoClient(
+            mongoConfig.CurrentValue.ConnectionString);
 
-            var database = client.GetDatabase(
-                mongoConfig.CurrentValue.DatabaseName);
+        var database = client.GetDatabase(
+            mongoConfig.CurrentValue.DatabaseName);
 
-            _songs = database.GetCollection<SongDTO>("Music");
+        _songs = database.GetCollection<SongDTO>("Music");
 
-            _logger = logger;
-        }
-
-
-    public List<SongDTO> GetAllSongs(){
-        return _songs.Find(song => true).ToList();
+        _logger = logger;
     }
 
-    public void AddSong(SongDTO song){
+
+    public async Task<List<SongDTO>> GetAllSongs()
+    {
+        var songs = await _songs.FindAsync(song => true);
+        return await songs.ToListAsync();
+    }
+
+    public async Task AddSong(SongDTO song)
+    {
         if (song == null)
         {
             _logger.LogError("Song is null");
@@ -43,31 +46,51 @@ public class MusicRepository : IMusicRepository
         {
             song.Id = Guid.NewGuid().ToString();
 
-            _songs.InsertOne(song);
+            await _songs.InsertOneAsync(song);
         }
         catch (Exception e)
         {
             _logger.LogError(e,
                    $"Error adding song {e.Message}-{e.StackTrace}");
         }
-           
+
     }
 
-    public void DeleteSong(string Id){
-        _songs.DeleteOne(song => song.Id == Id);
+    public async Task DeleteSong(string Id)
+    {
+        await _songs.DeleteOneAsync(song => song.Id == Id);
     }
 
-    public SongDTO GetSongById(string Id){
-        return _songs.Find(song => song.Id == Id).FirstOrDefault();
+    public async Task<SongDTO?> GetSongById(string Id)
+    {
+        return await _songs.Find(song => song.Id == Id).FirstOrDefaultAsync();
     }
 
-    public void UpdateSong(string Id, SongDTO updatedSongDto){
+    public async Task UpdateSong(string Id, SongDTO updatedSongDto)
+    {
         var filter = Builders<SongDTO>.Filter.Eq(a => a.Id, Id);
 
         var update = Builders<SongDTO>.Update
             .Set(a => a.Name, updatedSongDto.Name)
             .Set(a => a.Platforms, updatedSongDto.Platforms);
 
-        _songs.UpdateOne(filter, update);
+        await _songs.UpdateOneAsync(filter, update);
+    }
+    
+    protected async Task<IEnumerable<SongDTO?>> GetSongsAfterDateTime(DateTime date)
+    {
+        var result = await _songs.FindAsync(m => m.DateInserted >= date);
+
+        return await result.ToListAsync();
+    }
+
+    public async Task<IEnumerable<SongDTO?>> FullLoad()
+    {
+        return await GetAllSongs();
+    }
+
+    public async Task<IEnumerable<SongDTO?>> DifLoad(DateTime lastExecuted)
+    {
+        return await GetSongsAfterDateTime(lastExecuted);
     }
 }

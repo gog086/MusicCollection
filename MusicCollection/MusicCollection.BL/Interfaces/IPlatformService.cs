@@ -5,11 +5,11 @@ namespace MusicCollection.BL.Interfaces;
 
 public interface IPlatformService
 {
-    void AddPlatform(PlatformDTO platform);
+    Task AddPlatform(PlatformDTO platform);
 
-    void DeletePlatform(string Id);
+    Task DeletePlatform(string Id);
 
-    IEnumerable<PlatformDTO> GetPlatformsByName(IEnumerable<string> platformNames);
+    Task<IEnumerable<PlatformDTO>> GetPlatformsByName(IEnumerable<string> platformNames);
 
-    PlatformDTO? GetPlatformById(string Id);
+    Task<PlatformDTO?> GetPlatformById(string Id);
 }

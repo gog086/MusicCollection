@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using MusicCollection.BL.Interfaces;
 using MusicCollection.DL.Interfaces;
 using MusicCollection.Models.DTO;
@@ -18,24 +19,24 @@ public class MusicService : IMusicService
 
     }
 
-    public List<SongDTO> GetAllSongs(){
-        return _songRepository.GetAllSongs();
+    public async Task<List<SongDTO>> GetAllSongs(){
+        return await _songRepository.GetAllSongs();
     }
 
-    public void AddSong(SongDTO song){
-        _songRepository.AddSong(song);           
+    public async Task AddSong(SongDTO song){
+        await _songRepository.AddSong(song);           
     }
 
-    public void DeleteSong(string Id){
-        _songRepository.DeleteSong(Id);
+    public async Task DeleteSong(string Id){
+        await _songRepository.DeleteSong(Id);
     }
 
-    public SongDTO? GetSongById(string Id){
-        return _songRepository.GetSongById(Id);
+    public async Task<SongDTO?> GetSongById(string Id){
+        return await _songRepository.GetSongById(Id);
     }
 
-    public void UpdateSong(string Id, SongDTO song){
-        _songRepository.UpdateSong(Id, song);
+    public async Task UpdateSong(string Id, SongDTO song){
+        await _songRepository.UpdateSong(Id, song);
     }
 
 }

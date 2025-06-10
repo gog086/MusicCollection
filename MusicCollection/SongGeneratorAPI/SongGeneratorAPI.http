@@ -1,0 +1,6 @@
+@SongGeneratorAPI_HostAddress = http://localhost:5101
+
+GET {{SongGeneratorAPI_HostAddress}}/GetSong/
+Accept: application/json
+
+###

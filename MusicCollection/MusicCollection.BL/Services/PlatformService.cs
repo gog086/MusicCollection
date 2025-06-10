@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MusicCollection.BL.Interfaces;
 using MusicCollection.DL.Interfaces;
 using MusicCollection.Models.DTO;
@@ -13,19 +14,19 @@ public class PlatformService : IPlatformService
 
     }
 
-    public void AddPlatform(PlatformDTO platform){
-           _platformRepository.AddPlatform(platform);
+    public async Task AddPlatform(PlatformDTO platform){
+           await _platformRepository.AddPlatform(platform);
     }
 
-    public void DeletePlatform(string Id){
-        _platformRepository.DeletePlatform(Id);
+    public async Task DeletePlatform(string Id){
+        await _platformRepository.DeletePlatform(Id);
     }
 
-    public IEnumerable<PlatformDTO> GetPlatformsByName(IEnumerable<string> platformNames){
-        return _platformRepository.GetPlatformsByName(platformNames);
+    public async Task<IEnumerable<PlatformDTO>> GetPlatformsByName(IEnumerable<string> platformNames){
+        return await _platformRepository.GetPlatformsByName(platformNames);
     }
 
-    public PlatformDTO? GetPlatformById(string Id){
-        return _platformRepository.GetPlatformById(Id);
+    public async Task<PlatformDTO?> GetPlatformById(string Id){
+        return await _platformRepository.GetPlatformById(Id);
     }
 }

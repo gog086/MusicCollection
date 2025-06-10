@@ -1,6 +1,6 @@
 using System;
 
-namespace MusicCollection.Models.Models;
+namespace SongGeneratorAPI;
 
 public class Song
 {

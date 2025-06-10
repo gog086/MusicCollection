@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicCollection.BL.Interfaces;
@@ -20,9 +21,9 @@ namespace MusicCollection.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("GetAllSongsWithDetails")]
-        public IActionResult GetAllSongsWithDetails()
+        public async Task<IActionResult> GetAllSongsWithDetails()
         {
-            var result = _musicService.GetDetailedSongs();
+            var result = await _musicService.GetDetailedSongs();
 
             if (result == null || result.Count == 0)
             {
@@ -35,9 +36,9 @@ namespace MusicCollection.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPost("AddPlatform")]
-        public IActionResult AddPlatform([FromBody] PlatformDTO platform)
+        public async Task<IActionResult> AddPlatform([FromBody] PlatformDTO platform)
         {
-            _platformService.AddPlatform(platform);
+            await _platformService.AddPlatform(platform);
 
             return Ok();
         }

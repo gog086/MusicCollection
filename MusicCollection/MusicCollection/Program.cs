@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Mapster;
 using MapsterMapper;
 using MusicCollection.BL;
+using MusicCollection.DL;
 using MusicCollection.DL.Configurations;
 using MusicCollection.HealthChecks;
 using MusicCollection.Models.DTO;
@@ -27,6 +28,7 @@ builder.Services.Configure<MongoDbConfiguration>(
 
 
 builder.Services
+    .AddDataDependencies(builder.Configuration)
     .RegisterDataLayer()
     .RegisterBusinessLayer();
 

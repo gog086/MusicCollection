@@ -13,12 +13,12 @@ public static class DependencyInjection
         services.AddSingleton<IMusicService, MusicService>();
         services.AddSingleton<IPlatformService, PlatformService>();
         services.AddSingleton<IMusicBlService, MusicBlService>();
+        services.AddHostedService<RandomSongAPIService>();
         return services;
     }
 
     public static IServiceCollection RegisterDataLayer(this IServiceCollection services)
     {
-        services.RegisterRepositories();
 
         return services;
     }

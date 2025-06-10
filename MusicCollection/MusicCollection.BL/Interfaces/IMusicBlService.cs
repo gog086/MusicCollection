@@ -4,5 +4,5 @@ namespace MusicCollection.BL.Interfaces;
 
 public interface IMusicBlService
 {
-    List<SongView> GetDetailedSongs();
+    Task<List<SongView>> GetDetailedSongs();
 }

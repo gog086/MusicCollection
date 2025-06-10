@@ -15,11 +15,11 @@ public class MusicBlService : IMusicBlService
             _platformRepository = platformRepository;
         }
 
-        public List<SongView> GetDetailedSongs()
+        public async Task<List<SongView>> GetDetailedSongs()
         {
             var result = new List<SongView>();
 
-            var songs = _musicService.GetAllSongs();
+            var songs = await _musicService.GetAllSongs();
 
             foreach (var song in songs)
             {
@@ -27,7 +27,7 @@ public class MusicBlService : IMusicBlService
                 {
                     SongId = song.Id,
                     SongName = song.Name,
-                    Platforms = _platformRepository.GetPlatformsByName(song.Platforms)
+                    Platforms = await _platformRepository.GetPlatformsByName(song.Platforms)
                 };
 
                 result.Add(songView);

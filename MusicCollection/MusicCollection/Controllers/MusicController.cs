@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MapsterMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,9 @@ namespace MusicCollection.Controllers
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("GetAll")]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-        var result = _musicService.GetAllSongs();
+        var result = await _musicService.GetAllSongs();
 
         if (result == null || result.Count == 0)
         {
@@ -40,14 +41,14 @@ namespace MusicCollection.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public IActionResult GetById(string id)
+    public async Task<IActionResult> GetById(string id)
     {
         if (string.IsNullOrEmpty(id))
         {
             return BadRequest("Id can't be null or empty");
         }
 
-        var result = _musicService.GetSongById(id);
+        var result = await _musicService.GetSongById(id);
 
         if (result == null)
         {
@@ -59,7 +60,7 @@ namespace MusicCollection.Controllers
 
 
     [HttpPost("Add")]
-    public IActionResult Add(Song song)
+    public async Task<IActionResult> Add(Song song)
     {
         try
         {
@@ -70,7 +71,7 @@ namespace MusicCollection.Controllers
                 return BadRequest("Can't convert song to song DTO");
             }
 
-            _musicService.AddSong(songDto);
+            await _musicService.AddSong(songDto);
 
             return Ok();
         }
@@ -83,15 +84,15 @@ namespace MusicCollection.Controllers
 
 
     [HttpDelete("Delete")]
-    public IActionResult Delete(string id)
+    public async Task<IActionResult> Delete(string id)
     {
-        _musicService.DeleteSong(id);
+        await _musicService.DeleteSong(id);
 
         return Ok();
     }
 
     [HttpPut("Update")]
-    public IActionResult Update(string Id,Song song)
+    public async Task<IActionResult> Update(string Id,Song song)
     {
         try
         {
@@ -102,7 +103,7 @@ namespace MusicCollection.Controllers
                 return BadRequest("Can't convert song to song DTO");
             }
 
-            _musicService.UpdateSong(Id,SongDto);
+            await _musicService.UpdateSong(Id,SongDto);
 
             return Ok();
         }

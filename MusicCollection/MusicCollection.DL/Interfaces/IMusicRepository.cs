@@ -1,19 +1,20 @@
 using System;
+using MusicCollection.DL.Cache;
 using MusicCollection.Models.DTO;
 
 namespace MusicCollection.DL.Interfaces;
 
-public interface IMusicRepository
+public interface IMusicRepository : ICacheRepository<string, SongDTO>
 {
-    List<SongDTO> GetAllSongs();
+    Task<List<SongDTO>> GetAllSongs();
 
-    void AddSong(SongDTO song);
+    Task AddSong(SongDTO song);
 
-    void DeleteSong(string Id);
+    Task DeleteSong(string Id);
 
-    SongDTO? GetSongById(string Id);
+    Task<SongDTO?> GetSongById(string Id);
 
-    void UpdateSong(string Id, SongDTO song);
+    Task UpdateSong(string Id, SongDTO song);
 
 }
 
